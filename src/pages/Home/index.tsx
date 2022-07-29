@@ -1,17 +1,22 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Meta from 'helpers/Meta';
-import { Loader } from 'components';
+import { Loader, Button } from 'components';
 import { Product, Filter } from './components';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { getAllProducts } from 'store/actions/products';
+import { getAllCategories } from 'store/actions/categories';
 import {
   ICategoryState,
   IProcutsState,
   IProduct,
   RootState
 } from 'interfaces';
-import { ProductsContainer, BottomButton } from './style';
+import {
+  ProductsContainer,
+  BottomButton,
+  ErrorContainer
+} from './style';
 
 const Home: React.FC = () => {
   const loc = useLocation();
@@ -38,22 +43,32 @@ const Home: React.FC = () => {
     // eslint-disable-next-line
   }, [query.get('category')]);
 
-
   const init = async () => {
     console.log(prodsError);
     !isProdsLoading && await dispatch(getAllProducts());
   };
 
+  const refresh = async () => {
+    await dispatch(getAllCategories());
+    await dispatch(getAllProducts());
+  };
+
   if (isProdsLoading)
     return <Loader />;
 
-  // if (prodsError.status)
-  //   return <ProductsContainer><p>Error: {prodsError.message}</p></ProductsContainer>;
+  if (prodsError.status)
+    return <ErrorContainer>
+      <p>Something went wrong.</p>
+      <Button
+        title={'Refresh'}
+        onClick={refresh}
+        style={{ width: 'auto' }}
+      />
+    </ErrorContainer>;
 
   return (
     <>
-      <Meta
-      />
+      <Meta />
       <Filter
         immutableProducts={storeProducts}
         setProducts={(prods) => setProducts(prods)}
@@ -76,7 +91,9 @@ const Home: React.FC = () => {
           />
         ))
           :
-          <div>No products</div>
+          <ErrorContainer>
+            <p>{(searchName || searchCategory.value !== 'All') ? 'There are no products' : 'No Product'}</p>
+          </ErrorContainer>
         }
       </ProductsContainer>
 

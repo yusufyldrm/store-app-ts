@@ -60,7 +60,7 @@ const Filter: React.FC<IFilterProps> = React.memo(({
       <TextInput
         isResponsive={true}
         id={'product-name'}
-        placeholder={'Seacrh Product'}
+        placeholder={'Search Product'}
         containerStyle={{ width: '70%', maxWidth: '500px' }}
         onChange={e => setSearchName(e.target.value)}
         value={searchName}
