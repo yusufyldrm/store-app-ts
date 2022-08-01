@@ -10,7 +10,6 @@ import {
   waitFor
 } from './test-utils';
 import Home from 'pages/Home';
-import { __setMockData__ } from 'store/actions/categories';
 
 describe('Testing Components', () => {
   it('Home Page is rendering', () => {
