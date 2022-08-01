@@ -1,7 +1,10 @@
 import React from 'react';
 import { Button } from 'components';
-import { Link } from 'react-router-dom';
-import { Wrapper } from './style';
+import {
+  Wrapper,
+  LinkArea,
+  ErrorText
+} from './style';
 
 const NotFound: React.FC<{ message?: string }> = ({
   message
@@ -9,13 +12,13 @@ const NotFound: React.FC<{ message?: string }> = ({
   return (
     <Wrapper>
       <h1>404 | Not Found</h1>
-      {message && <p>{message}</p>}
-      <Link to={'/'}>
+      {message && <ErrorText>{message}</ErrorText>}
+      <LinkArea to={'/'}>
         <Button
           title={'Go to Home'}
-          style={{ width: 'auto' }}
+          style={{ width: 'auto', margin: 0 }}
         />
-      </Link>
+      </LinkArea>
     </Wrapper>
   )
 };

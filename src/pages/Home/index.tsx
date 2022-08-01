@@ -24,10 +24,10 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { products: storeProducts, isLoading: isProdsLoading, error: prodsError } = useAppSelector<IProcutsState>((state) => state.products);
+  const { categories } = useAppSelector<ICategoryState>((state: RootState) => state.categories);
   const [products, setProducts] = React.useState<IProduct[]>([]);
   const [searchCategory, setSearchCategory] = React.useState<{ value: string }>({ value: 'All' });
   const [searchName, setSearchName] = React.useState<string>('');
-  const { categories } = useAppSelector<ICategoryState>((state: RootState) => state.categories);
 
   React.useEffect(() => {
     init();
@@ -44,7 +44,6 @@ const Home: React.FC = () => {
   }, [query.get('category')]);
 
   const init = async () => {
-    console.log(prodsError);
     !isProdsLoading && await dispatch(getAllProducts());
   };
 
@@ -82,8 +81,8 @@ const Home: React.FC = () => {
       <ProductsContainer>
         {products.length > 0 ? products.map((product) => (
           <Product
-            key={product.id}
-            idx={product.id}
+            key={product._id}
+            idx={product._id}
             name={product.name}
             price={product.price}
             avatar={product.avatar}

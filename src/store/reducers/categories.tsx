@@ -10,7 +10,12 @@ const initCutomError: ICustomError = {
 const initState: ICategoryState = {
   categories: [],
   isLoading: false,
-  error: initCutomError
+  error: initCutomError,
+  singleCategory: {
+    category: null,
+    isLoading: false,
+    error: initCutomError
+  }
 };
 
 const categoriesReducer = (state = initState, action: PayloadAction) => {
@@ -35,6 +40,38 @@ const categoriesReducer = (state = initState, action: PayloadAction) => {
         categories: action.payload,
         isLoading: false,
         error: initState.error
+      };
+
+    // **Get single category
+    case CATEGORY.GET_SINGLE_CATEGORY_REQUEST:
+      return {
+        ...state,
+        singleCategory: {
+          ...state.singleCategory,
+          isLoading: true,
+          error: initCutomError
+        }
+      };
+
+    case CATEGORY.GET_SINGLE_CATEGORY_ERROR:
+      return {
+        ...state,
+        singleCategory: {
+          ...state.singleCategory,
+          isLoading: false,
+          error: { status: true, message: action.payload }
+        }
+      };
+
+    case CATEGORY.GET_SINGLE_CATEGORY:
+      return {
+        ...state,
+        singleCategory: {
+          ...state.singleCategory,
+          category: action.payload,
+          isLoading: false,
+          error: initCutomError
+        }
       };
 
     default:

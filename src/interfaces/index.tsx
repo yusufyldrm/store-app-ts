@@ -2,7 +2,7 @@
 export type { RootState, AppDispatch } from 'store';
 
 export interface IProduct {
-  id: number;
+  _id: number;
   name: string;
   price: number;
   category: string;
@@ -18,7 +18,7 @@ export interface ICustomError {
 };
 
 export interface ICategory {
-  id: number;
+  _id: number;
   name: string;
   createdAt: Date | string | object | null;
   products?: IProduct[];
@@ -35,6 +35,11 @@ export interface ICategoryState {
   categories: ICategory[];
   isLoading: boolean;
   error: ICustomError;
+  singleCategory: {
+    category: ICategory | null;
+    isLoading: boolean;
+    error: ICustomError;
+  }
 };
 
 export interface IProcutsState {

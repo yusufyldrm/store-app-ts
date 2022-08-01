@@ -58,6 +58,7 @@ const Product: React.FC<IProductProps> = ({
         scale: 1.05,
         transition: TRANSITION
       }}
+      data-testid='product-container'
     >
       <LinkContainer to={`/product/${idx}`} >
         <Image

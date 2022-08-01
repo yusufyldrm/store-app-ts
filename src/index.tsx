@@ -7,7 +7,7 @@ import { ThemeProvider } from 'styled-components';
 import theme from 'utils/globals/theme';
 import GlobalStyle from 'utils/globals/GlobalStyle';
 import store from 'store';
-import { getAllCategories, /* __mockCategoriesToRedux */ } from 'store/actions/categories';
+import { getAllCategories } from 'store/actions/categories';
 
 if (process.env.NODE_ENV === 'production') {
   console.log = () => { }
@@ -15,14 +15,14 @@ if (process.env.NODE_ENV === 'production') {
   console.debug = () => { }
   console.info = () => { }
   console.warn = () => { }
-}
+};
+
+store.dispatch(getAllCategories());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-store.dispatch(getAllCategories());
-// store.dispatch(__mockCategoriesToRedux());
 
 root.render(
   <ThemeProvider theme={theme}>

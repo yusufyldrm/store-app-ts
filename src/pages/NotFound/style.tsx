@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Wrapper = styled.div`
   position: absolute;
@@ -10,4 +11,12 @@ export const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`;
+
+export const LinkArea = styled(Link)`
+  margin-top: 20px;
+`;
+
+export const ErrorText = styled.p`
+  margin-top: 20px;
 `;

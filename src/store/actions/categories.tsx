@@ -1,6 +1,6 @@
 import type { AppDispatch, RootState } from 'store';
-import { CATEGORY, PRODUCTS } from '../contants';
-import { getAllCategoriesAsync } from '../services/categories';
+import { CATEGORY } from '../contants';
+import { getAllCategoriesAsync, getSingleCategoryAsync } from '../services/categories';
 import {
   categorizeProducts,
   errorHandler
@@ -12,8 +12,7 @@ export const getAllCategories = () => async (dispatch: AppDispatch, getState: ()
     const { products: { products } } = getState();
 
     const { data } = await getAllCategoriesAsync();
-
-    const categorized = categorizeProducts(products, data);
+    const categorized = categorizeProducts(products, data.categories);
 
     dispatch({
       type: CATEGORY.GET_CATEGORIES,
@@ -28,34 +27,22 @@ export const getAllCategories = () => async (dispatch: AppDispatch, getState: ()
   }
 };
 
-export const __mockCategoriesToRedux = () => async (dispatch: AppDispatch) => {
-  const products = [
-    {
-      id: 1,
-      name: 'Product 1',
-      price: 100,
-      category: 'Category 1',
-      description: 'Description 1',
-      avatar: 'https://via.placeholder.com/150',
-      developerEmail: ''
-    }
-  ];
+export const getSingleCategory = (id: string) => async (dispatch: AppDispatch, getState: () => RootState) => {
+  try {
+    dispatch({ type: CATEGORY.GET_SINGLE_CATEGORY_REQUEST });
+    const { products: { products } } = getState();
+    const { data: { category } } = await getSingleCategoryAsync(id);
+    const categorized = categorizeProducts(products, [category]);
 
-  const categories = [
-    {
-      id: 1,
-      name: 'Category 1',
-      products: products
-    }
-  ];
+    dispatch({
+      type: CATEGORY.GET_SINGLE_CATEGORY,
+      payload: categorized
+    });
 
-  dispatch({
-    type: CATEGORY.GET_CATEGORIES,
-    payload: categories
-  });
-
-  dispatch({
-    type: PRODUCTS.GET_ALL_PRODUCTS,
-    payload: products
-  });
+  } catch (error) {
+    dispatch({
+      type: CATEGORY.GET_SINGLE_CATEGORY_ERROR,
+      payload: errorHandler(error)
+    });
+  }
 };

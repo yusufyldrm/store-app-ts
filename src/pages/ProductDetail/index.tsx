@@ -70,7 +70,7 @@ const ProductDetail: React.FC = () => {
   const [isOpen, setOpen] = React.useState(false);
   const {
     singleProduct: { data: product, error, isLoading },
-    deleteProduct: { isLoading: isDeleteLoading, error: deleteError },
+    deleteProduct: { isLoading: isDeleteLoading, error: deleteError }
   } = useAppSelector<IProcutsState>((state: RootState) => state.products);
 
   React.useEffect(() => {
@@ -90,7 +90,6 @@ const ProductDetail: React.FC = () => {
         return navigate('/');
       console.log(':: delete error', deleteError.message);
     });
-
   };
 
   if (isLoading) {
